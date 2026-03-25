@@ -1,0 +1,28 @@
+# Environnement virtuel Python
+venv/
+env/
+.venv/
+env.bak/
+venv.bak/
+
+# Données (dataset potentiellement lourd)
+data/predictive_maintenance_v3.csv
+data/industrial_machine_maintenance.csv
+
+# Modèles sauvegardés (fichiers binaires potentiellement lourds)
+models/best_model.pkl
+
+# Fichiers générés par Python (cache)
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Fichiers de log / IDE
+.vscode/
+.idea/
+*.log
+
+# Documentation PDF brute
+Projet M2 DE Sujet 1 - Maintenance Prédictive Industrielle.pdf
+consignes.txt
