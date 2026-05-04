@@ -11,7 +11,7 @@ st.set_page_config(page_title="Dashboard Maintenance Prédictive", layout="wide"
 
 
 
-st.title("🧰 Dashboard de Maintenance Prédictive Industrielle")
+st.title("Dashboard de Maintenance Prédictive Industrielle")
 st.write("Ce dashboard permet d'analyser les données capteurs et de prédire les pannes des machines.")
 
 @st.cache_data
@@ -53,7 +53,7 @@ if model:
     
     # --- Onglet 1 : Simulation ---
     with tab_simulation:
-        st.header("⚙️ Simulation de Prédiction en direct")
+        st.header("Simulation de Prédiction en direct")
         
         # Widgets adaptés aux nouvelles variables du modèle
         vibration_rms = st.sidebar.slider("Vibration (RMS)", min_value=0.0, max_value=15.0, value=2.5, step=0.1)
@@ -64,7 +64,7 @@ if model:
         hours_since_maintenance = st.sidebar.number_input("Heures depuis dernière maintenance", min_value=0.0, max_value=20000.0, value=1500.0, step=10.0)
         operating_mode = st.sidebar.selectbox("Mode Opératoire", ["normal", "idle", "peak"])
 
-        st.subheader("📝 Données simulées")
+        st.subheader("Données simulées")
         input_data = {
             'vibration_rms': vibration_rms,
             'temperature_motor': temperature_motor,
@@ -81,7 +81,7 @@ if model:
             prediction = model.predict(input_df)
             probability = model.predict_proba(input_df)[0] if hasattr(model, "predict_proba") else None
         
-            st.subheader("🔍 Résultat de la prédiction")
+            st.subheader("Résultat de la prédiction")
             if prediction[0] == 1:
                 st.error("⚠️ ALERTE : Risque de panne détecté dans les 24 heures !")
             else:
@@ -92,7 +92,7 @@ if model:
                 
     # --- Onglet 2 : Métriques ---
     with tab_metrics:
-        st.header("📊 Performances comparées des modèles")
+        st.header("Performances comparées des modèles")
         metrics_df = load_metrics()
         
         if metrics_df is not None:
@@ -115,7 +115,7 @@ if model:
             col1, col2 = st.columns(2)
             
             with col1:
-                st.write("### 🎯 Matrice de Confusion du meilleur modèle")
+                st.write("### Matrice de Confusion du meilleur modèle")
                 try:
                     cm = np.load('models/confusion_matrix.npy')
                     fig_cm = px.imshow(cm, text_auto=True, color_continuous_scale='Blues',
@@ -127,7 +127,7 @@ if model:
                     st.warning("Matrice de confusion indisponible. Relancez l'entraînement.")
             
             with col2:
-                st.write("### 🔍 Importance des Variables (Feature Importance)")
+                st.write("### Importance des Variables (Feature Importance)")
                 try:
                     fi_df = pd.read_csv('models/feature_importance.csv')
                     if not fi_df.empty:
@@ -148,7 +148,7 @@ if model:
 
     # --- Onglet 3 : Analyses et Corrélations ---
     with tab_viz:
-        st.header("📈 Analyses Exploratoires et Corrélations")
+        st.header("Analyses Exploratoires et Corrélations")
         if raw_data is not None:
             st.write("### Matrice de corrélation (Variables numériques)")
             # On ne garde que les variables numériques
@@ -173,7 +173,7 @@ if model:
 
     # --- Onglet 4 : Vue d'ensemble des données ---
     with tab_data:
-        st.header("📋 Vue d'ensemble des données brutes")
+        st.header("Vue d'ensemble des données brutes")
         if raw_data is not None:
             st.write("Aperçu des 50 premières lignes :")
             st.dataframe(raw_data.head(50))

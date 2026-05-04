@@ -55,6 +55,17 @@ uvicorn api:app --reload
 - L'API sera accessible sur `http://127.0.0.1:8000`.
 - Vous pouvez tester l'interface interactive et voir la documentation en allant sur `http://127.0.0.1:8000/docs`.
 
+### Endpoints disponibles
+- `GET /health` : vérifie que le service est en ligne et que le modèle est chargé.
+- `POST /predict` : reçoit les variables capteurs et renvoie la prédiction de panne.
+
+### Exemple de requête
+```bash
+curl -X POST "http://127.0.0.1:8000/predict" \
+  -H "Content-Type: application/json" \
+  -d "{\"vibration_rms\":2.5,\"temperature_motor\":80,\"current_phase_avg\":25,\"pressure_level\":30,\"rpm\":2000,\"hours_since_maintenance\":1500,\"operating_mode\":\"normal\"}"
+```
+
 ### 5️⃣ Lancer le Dashboard interactif
 Pour visualiser le résultat métier (orienté pour un responsable de maintenance) via une interface simple :
 ```bash
