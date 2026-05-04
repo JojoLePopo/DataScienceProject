@@ -22,11 +22,36 @@ def main():
     # Ajout d'une colonne Global pour identifier le modèle choisi
     results_df['Global'] = results_df['Model'].apply(lambda x: '🏆 Sélectionné' if x == best_model_name else '')
 
-    # 4. Sauvegarde des métriques et du modèle
-    os.makedirs('models', exist_ok=True)
-    results_df.to_csv('models/model_metrics.csv', index=False)
-    
     best_model = trained_models[best_model_name]
+
+    # 4. Calculs post-entraînement : Matrice de Confusion et Feature Importance
+    from sklearn.metrics import confusion_matrix
+    import numpy as np
+    import pandas as pd
+
+    # 4a. Matrice de confusion
+    y_pred = best_model.predict(X_test)
+    cm = confusion_matrix(y_test, y_pred)
+    os.makedirs('models', exist_ok=True)
+    np.save('models/confusion_matrix.npy', cm)
+
+    # 4b. Importance des variables (Feature Importance)
+    classifier = best_model.named_steps['classifier']
+    if hasattr(classifier, 'feature_importances_'):
+        try:
+            feature_names = best_model.named_steps['preprocessor'].get_feature_names_out()
+            feature_names = [f.split('__')[-1] for f in feature_names] # Nettoyage des préfixes (ex: num__vibration -> vibration)
+        except AttributeError:
+            feature_names = [f"Feature_{i}" for i in range(len(classifier.feature_importances_))]
+            
+        fi_df = pd.DataFrame({
+            'Feature': feature_names,
+            'Importance': classifier.feature_importances_
+        })
+        fi_df.to_csv('models/feature_importance.csv', index=False)
+
+    # 5. Sauvegarde des métriques et du modèle
+    results_df.to_csv('models/model_metrics.csv', index=False)
     save_model(best_model, 'models/best_model.pkl')
 
 if __name__ == '__main__':

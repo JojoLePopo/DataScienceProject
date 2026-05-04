@@ -6,6 +6,7 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 import plotly.express as px
 
+
 st.set_page_config(page_title="Dashboard Maintenance Prédictive", layout="wide")
 
 
@@ -108,6 +109,37 @@ if model:
             # On surligne uniquement les colonnes numériques
             numeric_cols = [c for c in metrics_df.columns if metrics_df[c].dtype in ['float64', 'int64']]
             st.dataframe(metrics_df.style.highlight_max(subset=numeric_cols, color='lightgreen', axis=0), use_container_width=True)
+            
+            st.divider()
+            
+            col1, col2 = st.columns(2)
+            
+            with col1:
+                st.write("### 🎯 Matrice de Confusion du meilleur modèle")
+                try:
+                    cm = np.load('models/confusion_matrix.npy')
+                    fig_cm = px.imshow(cm, text_auto=True, color_continuous_scale='Blues',
+                                     labels=dict(x="Prédiction", y="Valeur Réelle", color="Nombre"),
+                                     x=['Normal (0)', 'Panne (1)'], y=['Normal (0)', 'Panne (1)'],
+                                     title="Analyse d'Erreur (Matrice de Confusion)")
+                    st.plotly_chart(fig_cm, use_container_width=True)
+                except FileNotFoundError:
+                    st.warning("Matrice de confusion indisponible. Relancez l'entraînement.")
+            
+            with col2:
+                st.write("### 🔍 Importance des Variables (Feature Importance)")
+                try:
+                    fi_df = pd.read_csv('models/feature_importance.csv')
+                    if not fi_df.empty:
+                        # Bar chart horizontal
+                        fig_fi = px.bar(fi_df, x='Importance', y='Feature', orientation='h',
+                                        title="Poids de chaque capteur dans la prédiction",
+                                        color='Importance', color_continuous_scale='viridis')
+                        st.plotly_chart(fig_fi, use_container_width=True)
+                    else:
+                        st.info("Le modèle retenu ne remonte pas l'importance des variables.")
+                except FileNotFoundError:
+                    st.warning("Fichier d'importance des variables indisponible.")
         else:
             st.info("Lancez `python main.py` pour générer les métriques d'entraînement.")
 
