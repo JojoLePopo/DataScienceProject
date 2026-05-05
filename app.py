@@ -259,39 +259,8 @@ if model and data is not None:
     
     st.divider()
     
-    # ============ SECTION 6 : MÉTRIQUES DU MODÈLE ============
-    if metrics is not None and not metrics.empty:
-        st.header("Performance du Modèle")
-        
-        metric_col1, metric_col2, metric_col3, metric_col4, metric_col5 = st.columns(5)
-        
-        metrics_dict = {
-            'Accuracy': metrics['Accuracy'].iloc[0] if 'Accuracy' in metrics.columns else None,
-            'Precision': metrics['Precision'].iloc[0] if 'Precision' in metrics.columns else None,
-            'Recall': metrics['Recall'].iloc[0] if 'Recall' in metrics.columns else None,
-            'F1-Score': metrics['F1-Score'].iloc[0] if 'F1-Score' in metrics.columns else None,
-            'ROC-AUC': metrics['ROC-AUC'].iloc[0] if 'ROC-AUC' in metrics.columns else None
-        }
-        
-        with metric_col1:
-            if metrics_dict['Accuracy'] is not None:
-                st.metric("Accuracy", f"{metrics_dict['Accuracy']:.3f}")
-        with metric_col2:
-            if metrics_dict['Precision'] is not None:
-                st.metric("Precision", f"{metrics_dict['Precision']:.3f}")
-        with metric_col3:
-            if metrics_dict['Recall'] is not None:
-                st.metric("Recall", f"{metrics_dict['Recall']:.3f}")
-        with metric_col4:
-            if metrics_dict['F1-Score'] is not None:
-                st.metric("F1-Score", f"{metrics_dict['F1-Score']:.3f}")
-        with metric_col5:
-            if metrics_dict['ROC-AUC'] is not None:
-                st.metric("ROC-AUC", f"{metrics_dict['ROC-AUC']:.3f}")
-    
-    st.divider()
-    
-    # ============ SECTION 7 : AIDE À LA DÉCISION ============
+       
+    # ============ SECTION 6 : AIDE À LA DÉCISION ============
     st.header("Guide de Décision d'Intervention")
     
     col_decision1, col_decision2 = st.columns(2)
