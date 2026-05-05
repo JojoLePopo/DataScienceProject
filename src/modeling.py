@@ -1,6 +1,7 @@
 from sklearn.linear_model import LogisticRegression
-from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier
+from sklearn.ensemble import RandomForestClassifier
 from sklearn.neural_network import MLPClassifier
+from xgboost import XGBClassifier
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, roc_auc_score
 import pandas as pd
 from sklearn.pipeline import Pipeline
@@ -9,10 +10,10 @@ import joblib
 def define_models():
     # 4 modèles avec des hyperparamètres optimisés pour mieux gérer le déséquilibre et la complexité
     models = {
-        'LogisticRegression': LogisticRegression(random_state=42, class_weight='balanced', C=0.1, max_iter=1000),
-        'RandomForest': RandomForestClassifier(n_estimators=200, max_depth=10, min_samples_split=5, random_state=42, class_weight='balanced'),
-        'GradientBoosting': GradientBoostingClassifier(n_estimators=200, learning_rate=0.05, max_depth=5, random_state=42),
-        'MLP_DeepLearning': MLPClassifier(hidden_layer_sizes=(128, 64, 32), activation='relu', alpha=0.001, max_iter=1000, early_stopping=True, random_state=42)
+        'LogisticRegression': LogisticRegression(random_state=24, class_weight='balanced', C=0.1, max_iter=1000),
+        'RandomForest': RandomForestClassifier(n_estimators=200, max_depth=10, min_samples_split=5, random_state=24, class_weight='balanced'),
+        'GradientBoosting': XGBClassifier(n_estimators=200, learning_rate=0.05, max_depth=5, scale_pos_weight=5.66, random_state=24),
+        'MLP_DeepLearning': MLPClassifier(hidden_layer_sizes=(128, 64, 32), activation='relu', alpha=0.001, max_iter=1000, early_stopping=True, random_state=24)
     }
     return models
 

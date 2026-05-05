@@ -11,7 +11,7 @@ st.set_page_config(page_title="Dashboard Maintenance Prédictive", layout="wide"
 
 
 
-st.title("🧰 Dashboard de Maintenance Prédictive Industrielle")
+st.title("Dashboard de Maintenance Prédictive Industrielle")
 st.write("Ce dashboard permet d'analyser les données capteurs et de prédire les pannes des machines.")
 
 @st.cache_data
@@ -57,7 +57,7 @@ if model:
         hours_since_maintenance = st.sidebar.number_input("Heures depuis dernière maintenance", min_value=0.0, max_value=20000.0, value=250.0, step=10.0)
         operating_mode = st.sidebar.selectbox("Mode Opératoire", ["normal", "idle", "peak"])
 
-        st.subheader("📝 Données simulées")
+        st.subheader("Données simulées")
         input_data = {
             'vibration_rms': vibration_rms,
             'temperature_motor': temperature_motor,
@@ -75,7 +75,7 @@ if model:
             prediction = model.predict(input_df)
             probability = model.predict_proba(input_df)[0] if hasattr(model, "predict_proba") else None
         
-            st.subheader("🔍 Résultat de la prédiction")
+            st.subheader("Résultat de la prédiction")
             if prediction[0] == 1:
                 st.error("⚠️ ALERTE : Risque de panne détecté dans les 24 heures !")
             else:

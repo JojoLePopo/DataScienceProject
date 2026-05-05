@@ -57,7 +57,7 @@ def main():
         coef_df.to_csv('models/model_coefficients.csv', index=False)
 
     # 5. Sauvegarde des métriques et du modèle
-    results_df.to_csv('models/model_metrics.csv', index=False)
+    results_df.to_csv('models/model_metrics_1.csv', index=False)
     save_model(best_model, 'models/best_model.pkl')
 
 if __name__ == '__main__':
