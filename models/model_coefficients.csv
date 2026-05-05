@@ -1,0 +1,10 @@
+Feature,Coefficients
+vibration_rms,0.15434359918207477
+temperature_motor,0.25613586599215327
+current_phase_avg,0.0999665079931556
+pressure_level,0.04662588892296769
+rpm,0.3107662490637053
+hours_since_maintenance,0.045888928800584074
+operating_mode_idle,0.011352036870462726
+operating_mode_normal,0.010230460011783314
+operating_mode_peak,0.06469046316311332

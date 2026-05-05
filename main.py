@@ -35,20 +35,26 @@ def main():
     os.makedirs('models', exist_ok=True)
     np.save('models/confusion_matrix.npy', cm)
 
-    # 4b. Importance des variables (Feature Importance)
+    # 4b. Importance des variables ou Coefficients
     classifier = best_model.named_steps['classifier']
+    importances = None
     if hasattr(classifier, 'feature_importances_'):
+        importances = classifier.feature_importances_
+    elif hasattr(classifier, 'coef_'):
+        importances = classifier.coef_[0]
+
+    if importances is not None:
         try:
             feature_names = best_model.named_steps['preprocessor'].get_feature_names_out()
             feature_names = [f.split('__')[-1] for f in feature_names] # Nettoyage des préfixes (ex: num__vibration -> vibration)
         except AttributeError:
-            feature_names = [f"Feature_{i}" for i in range(len(classifier.feature_importances_))]
+            feature_names = [f"Feature_{i}" for i in range(len(importances))]
             
-        fi_df = pd.DataFrame({
+        coef_df = pd.DataFrame({
             'Feature': feature_names,
-            'Importance': classifier.feature_importances_
+            'Coefficients': importances
         })
-        fi_df.to_csv('models/feature_importance.csv', index=False)
+        coef_df.to_csv('models/model_coefficients.csv', index=False)
 
     # 5. Sauvegarde des métriques et du modèle
     results_df.to_csv('models/model_metrics.csv', index=False)

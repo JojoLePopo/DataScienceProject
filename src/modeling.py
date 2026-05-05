@@ -7,12 +7,12 @@ from sklearn.pipeline import Pipeline
 import joblib
 
 def define_models():
-    # 4 modèles dont au moins un DL (MLP)
+    # 4 modèles avec des hyperparamètres optimisés pour mieux gérer le déséquilibre et la complexité
     models = {
-        'LogisticRegression': LogisticRegression(random_state=42, class_weight='balanced'),
-        'RandomForest': RandomForestClassifier(random_state=42, class_weight='balanced'),
-        'GradientBoosting': GradientBoostingClassifier(random_state=42),
-        'MLP_DeepLearning': MLPClassifier(hidden_layer_sizes=(64, 32), max_iter=500, random_state=42)
+        'LogisticRegression': LogisticRegression(random_state=42, class_weight='balanced', C=0.1, max_iter=1000),
+        'RandomForest': RandomForestClassifier(n_estimators=200, max_depth=10, min_samples_split=5, random_state=42, class_weight='balanced'),
+        'GradientBoosting': GradientBoostingClassifier(n_estimators=200, learning_rate=0.05, max_depth=5, random_state=42),
+        'MLP_DeepLearning': MLPClassifier(hidden_layer_sizes=(128, 64, 32), activation='relu', alpha=0.001, max_iter=1000, early_stopping=True, random_state=42)
     }
     return models
 
